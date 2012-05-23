@@ -3,7 +3,10 @@
  * @license http://www.gnu.org/licenses/gpl.txt GNU/GPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-package gov.in.bloomington.open311;
+package gov.in.bloomington.open311.controller;
+
+import gov.in.bloomington.open311.R;
+import gov.in.bloomington.open311.R.xml;
 
 import java.util.Map;
 

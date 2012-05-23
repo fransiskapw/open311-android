@@ -3,7 +3,11 @@
  * @license http://www.gnu.org/licenses/gpl.txt GNU/GPL, see LICENSE.txt
  * @author Cliff Ingham <inghamn@bloomington.in.gov>
  */
-package gov.in.bloomington.open311;
+package gov.in.bloomington.open311.view;
+
+import gov.in.bloomington.open311.R;
+import gov.in.bloomington.open311.R.layout;
+import gov.in.bloomington.open311.R.raw;
 
 import java.io.BufferedReader;
 import java.io.IOException;
