@@ -6,102 +6,98 @@
 package gov.in.bloomington.open311.view;
 
 import gov.in.bloomington.open311.R;
-import gov.in.bloomington.open311.R.layout;
-import gov.in.bloomington.open311.R.raw;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import gov.in.bloomington.open311.controller.GeoreporterAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ListView;
 
 public class MyServersActivity extends Activity {
-	private JSONArray availableServers;
+	private ListView list_report;
+	private GeoreporterAdapter adapter;
+	Intent intent;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.my_servers);
+	/** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.my_servers);
+        
+        list_report=(ListView)findViewById(R.id.list);
+		adapter = new GeoreporterAdapter(MyServersActivity.this,"server");
 		
-		try {
-			InputStream inputStream = getResources().openRawResource(R.raw.available_servers);
-			BufferedReader buffer = new BufferedReader(new InputStreamReader(inputStream));
-			StringBuilder builder = new StringBuilder();
-			String line = buffer.readLine();
-			while (line != null) {
-				builder.append(line);
-				line = buffer.readLine();
+		list_report.setAdapter(adapter);
+		
+		list_report.setOnItemLongClickListener(new OnItemLongClickListener()
+		{
+
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				AlertDialog.Builder builder = new AlertDialog.Builder(MyServersActivity.this);
+				builder.setMessage("Delete This Server?")
+				       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				           }
+				       })
+				       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				    	    	dialog.cancel();
+				           }
+				       });
+				AlertDialog alert = builder.create();
+				alert.show();
+				return false;
 			}
-			try {
-				availableServers = new JSONArray(builder.toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
-			
-		}
 		
-	}
-	
-	/**
-	 * Open a dialog for the user to enter a custom Open311 endpoint
-	 * 
-	 * @param v
-	 */
-	public void openCustomServerDialog(View v) {
+		});
 		
-	}
-	
-	/**
-	 * Open the list of available servers and let the user choose one
-	 * 
-	 * @param v
-	 */
-	public void openAvailableServersDialog(View v) {
-		final String[] serverNames = new String[availableServers.length()];
-		for (int i=0; i<availableServers.length(); i++) {
-			JSONObject server;
-			try {
-				server = availableServers.getJSONObject(i);
-				serverNames[i] = server.getString("name");
-			} catch (JSONException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		list_report.setOnItemClickListener(new OnItemClickListener()
+		{
+
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			// TODO Auto-generated method stub
+			AlertDialog.Builder builder = new AlertDialog.Builder(MyServersActivity.this);
+			builder.setMessage("Report to this server?")
+			       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			           }
+			       })
+			       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			    	    	dialog.cancel();
+			           }
+			       });
+			AlertDialog alert = builder.create();
+			alert.show();
+
 		}
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Available Servers")
-			   .setCancelable(true)
-			   .setItems(serverNames, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Add the selected server to MyServers
-						Toast.makeText(getApplicationContext(), serverNames[which], Toast.LENGTH_SHORT).show();
-					}
-				})
-			   .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
-					}
-			   });
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
+		});
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add:     
+                break;
+        }
+        return true;
+    }
+    
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_home_servers, menu);
+        return true;
+    }
 	
 }

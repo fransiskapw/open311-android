@@ -5,12 +5,17 @@
     android:versionName="1.0" >
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="15" />
-
+	 <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+	 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+	 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+	 <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+    
     <application
         android:icon="@drawable/georeporter_icon"
         android:label="GeoReporter" android:theme="@android:style/Theme.NoTitleBar">
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:label="GeoReporter" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyPreferencesActivity"></activity>
-        <activity android:name=".HomeActivity"></activity>
-        <activity android:name=".ReportActivity"></activity>
-        <activity android:name=".MyReportsActivity"></activity>
-        <activity android:name=".MyServersActivity"></activity>
+        <activity android:name=".controller.MyPreferencesActivity"></activity>
+        <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.ReportActivity"></activity>
+        <activity android:name=".view.MyReportsActivity"></activity>
+        <activity android:name=".view.MyServersActivity"></activity>
+        <activity android:name=".view.ReportDetail"></activity>
     </application>
 
 </manifest>
